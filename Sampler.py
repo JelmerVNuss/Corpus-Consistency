@@ -1,6 +1,6 @@
 import random
 
-class Sampler():
+class Sampler:
     def __init__(self, sampleLength, sampleSize):
         self.sampleLength = sampleLength
         self.sampleSize = sampleSize
