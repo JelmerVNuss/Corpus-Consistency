@@ -5,7 +5,7 @@ class Sampler():
         self.sampleSize = sampleSize
         self.sampleAmount = sampleAmount
 
-    def sample(text):
+    def sample(self, text):
         """Randomly sample [sampleAmount] pieces of text of length [sampleSize]
         (in characters including whitespace).
         Each sample might overlap with other samples.
@@ -13,10 +13,10 @@ class Sampler():
         """
         samples = []
 
-        for _ in range(sampleAmount):
-            randomIndexUpperBound = len(text) - sampleSize
+        for _ in range(self.sampleAmount):
+            randomIndexUpperBound = len(text) - self.sampleSize
             startIndex = random.randrange(0, randomIndexUpperBound)
-            endIndex = startIndex + sampleSize
+            endIndex = startIndex + self.sampleSize
             sample = text[startIndex:endIndex]
             samples.append(sample)
 
