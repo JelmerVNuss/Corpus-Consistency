@@ -3,13 +3,15 @@ from Sampler import Sampler
 
 
 ROOT_DIRECTORY = "corpus"
-SAMPLE_SIZE = 100
-SAMPLE_AMOUNT = 25
+# Sample length is the length of a sample string containing a small piece of text.
+SAMPLE_LENGTH = 100
+# Sample size is the conventional measure of the amount of samples.
+SAMPLE_SIZE = 25
 
 
 if __name__ == "__main__":
     corpus = Corpus(ROOT_DIRECTORY)
-    sampler = Sampler(SAMPLE_SIZE, SAMPLE_AMOUNT)
+    sampler = Sampler(SAMPLE_LENGTH, SAMPLE_SIZE)
 
     documentSamples = {}
     for documentTitle in corpus.documents:

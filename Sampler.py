@@ -1,22 +1,22 @@
 import random
 
 class Sampler():
-    def __init__(self, sampleSize, sampleAmount):
+    def __init__(self, sampleLength, sampleSize):
+        self.sampleLength = sampleLength
         self.sampleSize = sampleSize
-        self.sampleAmount = sampleAmount
 
     def sample(self, text):
-        """Randomly sample [sampleAmount] pieces of text of length [sampleSize]
+        """Randomly sample [sampleSize] pieces of text of length [sampleLength]
         (in characters including whitespace).
         Each sample might overlap with other samples.
         Return a list of samples.
         """
         samples = []
 
-        for _ in range(self.sampleAmount):
-            randomIndexUpperBound = len(text) - self.sampleSize
+        for _ in range(self.sampleSize):
+            randomIndexUpperBound = len(text) - self.sampleLength
             startIndex = random.randrange(0, randomIndexUpperBound)
-            endIndex = startIndex + self.sampleSize
+            endIndex = startIndex + self.sampleLength
             sample = text[startIndex:endIndex]
             samples.append(sample)
 
