@@ -1,7 +1,15 @@
 class WordCounter:
-    def __init__(self, word):
+    def __init__(self, word, sampleSize):
         self.word = word
+        self.sampleSize = sampleSize
         self.occurrences = {}
+
+    @property
+    def occurrencesPerMillionWords(self):
+        occurrencesPerMillionWords = {}
+        for documentTitle in self.occurrences:
+            occurrencesPerMillionWords[documentTitle] = [x / (self.sampleSize * 1000000) for x in self.occurrences[documentTitle]]
+        return occurrencesPerMillionWords
 
     def countOccurrencesInSample(self, sample):
         occurrences = sample.count(self.word)

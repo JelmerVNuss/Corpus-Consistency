@@ -5,6 +5,8 @@ from StatisticsPlotter import StatisticsPlotter
 
 
 ROOT_DIRECTORY = "corpus"
+# The confidence level as a decimal point value between 0 and 1.
+CONFIDENCE = 0.95
 # Sample length is the length of a sample string containing a small piece of text.
 SAMPLE_LENGTH = 1000
 # Sample size is the conventional measure of the amount of samples.
@@ -24,14 +26,15 @@ if __name__ == "__main__":
         documentSample = sampler.sample(corpus.documents[documentTitle])
         documentSamples[documentTitle] = documentSample
 
-    wordCounter = WordCounter(WORD)
+    wordCounter = WordCounter(WORD, SAMPLE_SIZE)
     wordCounter.countOccurrences(documentSamples)
 
     dataLabels = sorted(list(wordCounter.occurrences.keys()))
     dataSets = []
     for dataLabel in dataLabels:
-        dataSet = wordCounter.occurrences[dataLabel]
+        #dataSet = wordCounter.occurrences[dataLabel]
+        dataSet = wordCounter.occurrencesPerMillionWords[dataLabel]
         dataSets.append(dataSet)
 
-    statisticsPlotter = StatisticsPlotter(dataLabels, dataSets)
+    statisticsPlotter = StatisticsPlotter(dataLabels, dataSets, CONFIDENCE)
     statisticsPlotter.plotStatistics()
