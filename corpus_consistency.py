@@ -1,3 +1,5 @@
+import argparse
+
 from Corpus import Corpus
 from Sampler import Sampler
 from WordCounter import WordCounter
@@ -14,11 +16,11 @@ SAMPLE_SIZE = 25
 
 TO_LOWERCASE = True
 FILTERS = ["\n"]
-WORD = "and"
+WORD = "eten"
 
 
-if __name__ == "__main__":
-    corpus = Corpus(ROOT_DIRECTORY, toLowercase=TO_LOWERCASE, filters=FILTERS)
+def main(rootDirectory):
+    corpus = Corpus(rootDirectory, toLowercase=TO_LOWERCASE, filters=FILTERS)
     sampler = Sampler(SAMPLE_LENGTH, SAMPLE_SIZE)
 
     documentSamples = {}
@@ -38,3 +40,14 @@ if __name__ == "__main__":
 
     statisticsPlotter = StatisticsPlotter(dataLabels, dataSets, CONFIDENCE)
     statisticsPlotter.plotStatistics()
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Load a corpus and test its consistency.')
+    parser.add_argument('--path', type=str, default=ROOT_DIRECTORY,
+                        help='the path to the corpus (root) directory')
+
+    args = parser.parse_args()
+    rootDirectory = args.path
+
+    main(rootDirectory)
