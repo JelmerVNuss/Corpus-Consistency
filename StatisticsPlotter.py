@@ -39,11 +39,18 @@ class StatisticsPlotter:
         x = [self.dataLabels.index(dataLabel) for dataLabel in self.dataLabels]
         y = clamp(self.means)
         ax.errorbar(x, y, yerr=clamp(self.standardDeviations))
-        ax.set_xticklabels([""] + self.dataLabels, fontsize='small')
+        ax.set_xticklabels([""] + self.dataLabels, fontsize='small', rotation=70)
 
         # Restrict the labels to integers only.
         xa = ax.get_xaxis()
         xa.set_major_locator(matplotlib.ticker.MultipleLocator(1.0))
+        # Set the accuracy of the occurrences per million words to 3 significant digits.
+        # That is, up to 1/1000 words per million words can be plotted.
+        ax.yaxis.set_major_formatter(matplotlib.ticker.FormatStrFormatter('%.9f'))
+
+        # Start the y-axis at 0 words per million.
+        ax.set_ylim(ymin=0)
+
         plt.show()
 
 
