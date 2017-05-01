@@ -4,6 +4,7 @@ from Corpus import Corpus
 from Sampler import Sampler
 from WordCounter import WordCounter
 from StatisticsPlotter import StatisticsPlotter
+from StatisticsPlotter import FunctionType
 
 
 ROOT_DIRECTORY = "corpus"
@@ -19,7 +20,7 @@ TO_LOWERCASE = True
 FILTERS = ["\n"]
 
 
-def main(rootDirectory, words):
+def main(rootDirectory, words, functionType):
     corpus = Corpus(rootDirectory, toLowercase=TO_LOWERCASE, filters=FILTERS)
     #sampler = Sampler(SAMPLE_SIZE, sampleLength=SAMPLE_LENGTH)
     sampler = Sampler(SAMPLE_SIZE, sampleLengthPercentage=SAMPLE_LENGTH_PERCENTAGE)
@@ -40,7 +41,7 @@ def main(rootDirectory, words):
         dataSets.append(dataSet)
 
     statisticsPlotter = StatisticsPlotter(dataLabels, dataSets, CONFIDENCE, words)
-    statisticsPlotter.plotStatistics()
+    statisticsPlotter.plotStatistics(functionType=functionType)
 
 
 if __name__ == "__main__":
@@ -49,9 +50,12 @@ if __name__ == "__main__":
                        help='the words that are counted in the corpus (single word, or multiple to serve as a topic)')
     parser.add_argument('--path', type=str, default=ROOT_DIRECTORY,
                         help='the path to the corpus (root) directory')
+    parser.add_argument('--functionType', type=FunctionType, default=FunctionType.STANDARD_DEVIATION,
+                        help='the type of function used in the statistics plot')
 
     args = parser.parse_args()
     rootDirectory = args.path
     words = args.words
+    functionType = args.functionType
 
-    main(rootDirectory, words)
+    main(rootDirectory, words, functionType)

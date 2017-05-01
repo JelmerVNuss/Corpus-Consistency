@@ -1,6 +1,12 @@
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+from enum import Enum
+
+
+class FunctionType(Enum):
+    STANDARD_DEVIATION = "standard_deviation"
+    BOX_PLOT = "box_plot"
 
 
 class StatisticsPlotter:
@@ -28,18 +34,18 @@ class StatisticsPlotter:
         return standardDeviations
 
 
-    def plotStatistics(self):
+    def plotStatistics(self, functionType=FunctionType.STANDARD_DEVIATION):
         fig, ax = plt.subplots()
         fig.canvas.set_window_title('Corpus Consistency at {}% confidence'.format(round(self.confidence * 100)))
         ax.margins(x=0.05, y=0.01)
-        ax.set_title('Average occurences of {} per document (with standard deviations)'.format(self.words))
 
-        #ax.set_xlabel('Document')
-        ax.set_ylabel('Occurrences per million words')
+        if functionType == FunctionType.STANDARD_DEVIATION:
+            self.plotStandardDeviation(fig, ax)
+        elif functionType == FunctionType.BOX_PLOT:
+            self.plotBoxPlot(fig, ax)
+        else:
+            raise ValueError("Function type not implemented: {}".format(functionType))
 
-        x = [self.dataLabels.index(dataLabel) for dataLabel in self.dataLabels]
-        y = clamp(self.means)
-        ax.errorbar(x, y, yerr=clamp(self.standardDeviations))
         ax.set_xticklabels([""] + self.dataLabels, fontsize='small', rotation=70)
 
         # Restrict the labels to integers only.
@@ -53,6 +59,17 @@ class StatisticsPlotter:
         ax.set_ylim(ymin=0)
 
         plt.show()
+
+    def plotStandardDeviation(self, fig, ax):
+        ax.set_title('Average occurences of {} per document (with standard deviation)'.format(self.words))
+
+        x = [self.dataLabels.index(dataLabel) for dataLabel in self.dataLabels]
+        y = clamp(self.means)
+        ax.errorbar(x, y, yerr=clamp(self.standardDeviations))
+
+    def plotBoxPlot(self, fig, ax):
+        ax.set_title('Box plot of occurences of {} per document'.format(self.words))
+        ax.boxplot(self.dataSets)
 
 
 def clamp(integerList):
