@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 
 
 class StatisticsPlotter:
-    def __init__(self, dataLabels, dataSets, confidence, word):
+    def __init__(self, dataLabels, dataSets, confidence, words):
         self.dataLabels = dataLabels
         self.dataSets = dataSets
         self.confidence = confidence
-        self.word = word
+        self.words = words
         self.means = self.calculateMeans()
         self.standardDeviations = self.calculateStandardDeviations()
 
@@ -32,7 +32,7 @@ class StatisticsPlotter:
         fig, ax = plt.subplots()
         fig.canvas.set_window_title('Corpus Consistency at {}% confidence'.format(round(self.confidence * 100)))
         ax.margins(x=0.05, y=0.01)
-        ax.set_title('Average occurences of \'{}\' per document (with standard deviations)'.format(self.word))
+        ax.set_title('Average occurences of {} per document (with standard deviations)'.format(self.words))
 
         #ax.set_xlabel('Document')
         ax.set_ylabel('Occurrences per million words')

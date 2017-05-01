@@ -1,6 +1,6 @@
 class WordCounter:
-    def __init__(self, word, sampleSize):
-        self.word = word
+    def __init__(self, words, sampleSize):
+        self.words = words
         self.sampleSize = sampleSize
         self.occurrences = {}
 
@@ -12,7 +12,9 @@ class WordCounter:
         return occurrencesPerMillionWords
 
     def countOccurrencesInSample(self, sample):
-        occurrences = sample.count(self.word)
+        occurrences = 0
+        for word in self.words:
+            occurrences += sample.count(word)
         return occurrences
 
     def countOccurrences(self, documentSamples):

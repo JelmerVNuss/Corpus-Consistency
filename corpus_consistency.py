@@ -19,7 +19,7 @@ TO_LOWERCASE = True
 FILTERS = ["\n"]
 
 
-def main(rootDirectory, word):
+def main(rootDirectory, words):
     corpus = Corpus(rootDirectory, toLowercase=TO_LOWERCASE, filters=FILTERS)
     #sampler = Sampler(SAMPLE_SIZE, sampleLength=SAMPLE_LENGTH)
     sampler = Sampler(SAMPLE_SIZE, sampleLengthPercentage=SAMPLE_LENGTH_PERCENTAGE)
@@ -29,7 +29,7 @@ def main(rootDirectory, word):
         documentSample = sampler.sample(corpus.documents[documentTitle], usePercentage=True)
         documentSamples[documentTitle] = documentSample
 
-    wordCounter = WordCounter(word, SAMPLE_SIZE)
+    wordCounter = WordCounter(words, SAMPLE_SIZE)
     wordCounter.countOccurrences(documentSamples)
 
     dataLabels = sorted(list(wordCounter.occurrences.keys()))
@@ -39,19 +39,19 @@ def main(rootDirectory, word):
         dataSet = wordCounter.occurrencesPerMillionWords[dataLabel]
         dataSets.append(dataSet)
 
-    statisticsPlotter = StatisticsPlotter(dataLabels, dataSets, CONFIDENCE, word)
+    statisticsPlotter = StatisticsPlotter(dataLabels, dataSets, CONFIDENCE, words)
     statisticsPlotter.plotStatistics()
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Load a corpus and test its consistency.')
-    parser.add_argument('word', type=str,
-                        help='the word that is counted in the corpus')
+    parser.add_argument('words', type=str, nargs='+',
+                       help='the words that are counted in the corpus (single word, or multiple to serve as a topic)')
     parser.add_argument('--path', type=str, default=ROOT_DIRECTORY,
                         help='the path to the corpus (root) directory')
 
     args = parser.parse_args()
     rootDirectory = args.path
-    word = args.word
+    words = args.words
 
-    main(rootDirectory, word)
+    main(rootDirectory, words)
